@@ -18,6 +18,7 @@ const initialState = {
 
 // Register new user
 export const register = createAsyncThunk(
+  //?? 'auth/register' string này có ý nghĩa gì
   'auth/register',
   async (user, thunkAPI) => {
     try {
