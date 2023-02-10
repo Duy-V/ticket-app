@@ -55,13 +55,13 @@ export const getNote = createAsyncThunk(
 
 export const updateNote = createAsyncThunk(
   'notes/update',
-  async ({ ticketId, noteText }, thunkAPI) => {
+  async (note, thunkAPI) => {
     // console.log(ticketId)
     try {
       const token = thunkAPI.getState().auth.user.token
-      const note = await noteService.updateNote(noteText, ticketId, token)
-      thunkAPI.dispatch(getNotes(ticketId))
-      return note
+      const updateNote = await noteService.updateNote(note.text, note.ticket, note._id, token)
+      thunkAPI.dispatch(getNotes(note.ticket))
+      return updateNote
     } catch (error) {
       return thunkAPI.rejectWithValue(extractErrorMessage(error))
     }

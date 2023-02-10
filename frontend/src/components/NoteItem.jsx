@@ -20,7 +20,7 @@ const customStyles = {
 }
 function NoteItem({ note }) {
   const { user } = useSelector((state) => state.auth)
-  const [newNoteText, setNewNoteText] = useState('')
+  const [newNoteText, setNewNoteText] = useState(note.text)
 
   const dispatch = useDispatch()
   const [modalIsOpen, setModalIsOpen] = useState(false)
@@ -30,18 +30,20 @@ function NoteItem({ note }) {
     dispatch(deleteNote(note)).unwrap().catch(toast.error)
 console.log(note.ticket, note._id)
   }
+  
   const onNoteSubmit = (e) =>{
     e.preventDefault()
-console.log(e)
-    dispatch(updateNote(note,e)).unwrap().catch(toast.error)
-      .unwrap()
-      .then(() => {
-        setNewNoteText('')
-        closeModal()
-      })
-      .catch(toast.error)
-  } 
+    const newNote = {ticket: note.ticket, _id: note._id,text: newNoteText}
 
+    dispatch(updateNote(newNote)).unwrap()
+    .then(() => {
+      setNewNoteText('')
+      closeModal()
+    })
+    .catch(toast.error)
+
+  } 
+//if(not)
  
 
 // Open/close modal
@@ -87,7 +89,7 @@ const closeModal = () => setModalIsOpen(false)
               id='noteText'
               className='form-control'
               placeholder='Note text'
-              value={note.text}
+              value={newNoteText}
               onChange={(e) => setNewNoteText(e.target.value)}
             ></textarea>
           </div>

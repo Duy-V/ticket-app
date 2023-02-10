@@ -47,13 +47,13 @@ return response.data
 return response.data
 }
 
-const updateNote = async (noteText,ticketId, token) =>{
+const updateNote = async (noteText,ticketId, noteId,token) =>{
     const config = {
         headers: {
             Authorization: `Bearer ${token}`,
         },
     }
-    const response = await axios.put(API_URL + ticketId + '/notes', {
+    const response = await axios.put(API_URL + ticketId + '/notes/'+ noteId, {
         text: noteText,
     },config)
 return response.data
