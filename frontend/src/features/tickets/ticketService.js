@@ -1,5 +1,5 @@
 import axios from 'axios'
-const API_URL = 'api/tickets/'
+const API_URL = '/api/tickets/'
 
 const createTicket  = async (ticketData, token) => {
     const config = {
@@ -30,8 +30,8 @@ const getTickets = async (token) => {
         Authorization: `Bearer ${token}`,
       },
     }
-  
-    const response = await axios.get(API_URL + ticketId, config)
+  console.log(API_URL)
+    const response = await axios.get(`${API_URL}/${ticketId}`, config)
   
     return response.data
   }

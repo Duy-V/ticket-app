@@ -43,7 +43,41 @@ const addNote = asyncHandler(async (req, res) => {
   res.status(200).json(note)
 })
 
+const deleteNote = asyncHandler(async (req, res) => {
+  const ticket = await Ticket.findById(req.params.ticketId)
+
+  if (ticket.user.toString() !== req.user.id) {
+    res.status(401)
+    throw new Error('User not authorized')
+  }
+
+  const note = await Note.findByIdAndDelete(req.params.id)
+
+
+  res.status(200).json(note)
+})
+
+const updateNote = asyncHandler(async (req, res) => {
+  const ticket = await Ticket.findById(req.params.ticketId)
+
+  if (ticket.user.toString() !== req.user.id) {
+    res.status(401)
+    throw new Error('User not authorized')
+  }
+
+  const note = await Note.findByIdAndUpdate(req.params.id, {
+    text: req.body.text
+  }, {
+    new: true
+  })
+
+
+  res.status(200).json(note)
+})
+
 module.exports = {
   getNotes,
   addNote,
+  deleteNote,
+  updateNote,
 }

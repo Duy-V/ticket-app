@@ -4,7 +4,7 @@ import Modal from 'react-modal'
 import { FaPlus } from 'react-icons/fa'
 import { useSelector, useDispatch } from 'react-redux'
 import { getTicket, reset,closeTicket } from '../features/tickets/ticketSlice'
-// import { getNotes, createNote } from '../features/notes/noteSlice'
+import { getNotes, createNote } from '../features/notes/noteSlice'
 import { useParams, useNavigate } from 'react-router-dom'
 import BackButton from '../components/BackButton'
 import Spinner from '../components/Spinner'
@@ -29,18 +29,18 @@ function Ticket() {
   const [modalIsOpen, setModalIsOpen] = useState(false)
   const [noteText, setNoteText] = useState('')
   const { ticket } = useSelector((state) => state.tickets)
-console.log(ticket)
-//   const { notes } = useSelector((state) => state.notes)
+
+   const { notes } = useSelector((state) => state.notes)
 
   // NOTE: no need for two useParams
-  // const params = useParams()
+  const params = useParams()
   const navigate = useNavigate()
   const dispatch = useDispatch()
   const { ticketId } = useParams()
-console.log(ticketId)
+
   useEffect(() => {
     dispatch(getTicket(ticketId)).unwrap().catch(toast.error)
-    // dispatch(getNotes(ticketId)).unwrap().catch(toast.error)
+    dispatch(getNotes(ticketId)).unwrap().catch(toast.error)
   }, [ticketId, dispatch])
 
   // Close ticket
@@ -61,13 +61,13 @@ console.log(ticketId)
     // NOTE: we can unwrap our AsyncThunkACtion here so no need for isError and
     // isSuccess state
     e.preventDefault()
-    // dispatch(createNote({ noteText, ticketId }))
-    //   .unwrap()
-    //   .then(() => {
-    //     setNoteText('')
-    //     closeModal()
-    //   })
-    //   .catch(toast.error)
+    dispatch(createNote({ noteText, ticketId }))
+      .unwrap()
+      .then(() => {
+        setNoteText('')
+        closeModal()
+      })
+      .catch(toast.error)
   }
 
   // Open/close modal
@@ -136,11 +136,11 @@ console.log(ticketId)
         </form>
       </Modal>
 
-      {/* {notes ? (
+      {notes ? (
         notes.map((note) => <NoteItem key={note._id} note={note} />)
       ) : (
         <Spinner />
-      )} */}
+      )}
 
       {ticket.status !== 'closed' && (
         <button onClick={onTicketClose} className='btn btn-block btn-danger'>
