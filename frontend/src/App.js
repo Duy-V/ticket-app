@@ -47,6 +47,14 @@ function App() {
                 </PrivateRoute>
               }
             />
+             <Route
+              path='/update-ticket/:ticketId'
+              element={
+                <PrivateRoute>
+                  <NewTicket />
+                </PrivateRoute>
+              }
+            />
           
           </Routes>
         </div>

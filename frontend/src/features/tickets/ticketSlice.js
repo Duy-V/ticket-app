@@ -50,6 +50,36 @@ export const getTicket = createAsyncThunk(
   }
 )
 
+export const updateTicket = createAsyncThunk(
+  'tickets/update',
+  async (updateTicketData, thunkAPI) => {
+    // console.log(ticketId)
+    try {
+      const token = thunkAPI.getState().auth.user.token
+      const updateNote = await ticketService.updateTicket(updateTicketData, token)
+      thunkAPI.dispatch(getTickets(token))
+      return updateNote
+    } catch (error) {
+      return thunkAPI.rejectWithValue(extractErrorMessage(error))
+    }
+  }
+)
+
+export const deleteTicket = createAsyncThunk(
+  'tickets/delete',
+  async (ticketData, thunkAPI) => {
+    console.log('slice', ticketData._id)
+    try {
+      const token = thunkAPI.getState().auth.user.token
+      const ticket = await ticketService.deleteTicket( ticketData._id,token)
+      thunkAPI.dispatch(getTickets(token))
+      return ticket
+    } catch (error) {
+      return thunkAPI.rejectWithValue(extractErrorMessage(error))
+    }
+  }
+)
+
 // Close ticket
 export const closeTicket = createAsyncThunk(
   'tickets/close',
@@ -92,6 +122,30 @@ export const ticketSlice = createSlice({
             state.ticket = action.payload
           })
           .addCase(getTicket.rejected, (state, action) => {
+            state.isLoading = false
+            state.isError = true
+            state.message = action.payload
+          })
+          .addCase(deleteTicket.pending, (state) => {
+            state.isLoading = true
+          })
+          .addCase(deleteTicket.fulfilled, (state, action) => {        
+            state.isLoading = false
+          
+          })
+          .addCase(deleteTicket.rejected, (state, action) => {
+            state.isLoading = false
+            state.isError = true
+            state.message = action.payload
+          })
+          .addCase(updateTicket.pending, (state) => {
+            state.isLoading = true
+          })
+          .addCase(updateTicket.fulfilled, (state, action) => {        
+            state.isLoading = false
+          
+          })
+          .addCase(updateTicket.rejected, (state, action) => {
             state.isLoading = false
             state.isError = true
             state.message = action.payload

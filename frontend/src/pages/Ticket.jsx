@@ -3,7 +3,7 @@ import { toast } from 'react-toastify'
 import Modal from 'react-modal'
 import { FaPlus } from 'react-icons/fa'
 import { useSelector, useDispatch } from 'react-redux'
-import { getTicket, reset,closeTicket } from '../features/tickets/ticketSlice'
+import { getTicket, reset, closeTicket } from '../features/tickets/ticketSlice'
 import { getNotes, createNote } from '../features/notes/noteSlice'
 import { useParams, useNavigate } from 'react-router-dom'
 import BackButton from '../components/BackButton'
@@ -30,7 +30,7 @@ function Ticket() {
   const [noteText, setNoteText] = useState('')
   const { ticket } = useSelector((state) => state.tickets)
 
-   const { notes } = useSelector((state) => state.notes)
+  const { notes } = useSelector((state) => state.notes)
 
   // NOTE: no need for two useParams
   const params = useParams()
@@ -82,7 +82,7 @@ function Ticket() {
     <div className='ticket-page'>
       <header className='ticket-header'>
         <BackButton />
-       
+
         <h2>
           Ticket ID: {ticket._id}
           <span className={`status status-${ticket.status}`}>

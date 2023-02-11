@@ -6,18 +6,19 @@ import BackButton from '../components/BackButton'
 import TicketItem from '../components/TicketItem'
 
 function Tickets() {
-  const { tickets, isLoading, isSuccess } = useSelector((state) => state.tickets)
-console.log(tickets)
+  const { tickets, isLoading, isSuccess } = useSelector(
+    (state) => state.tickets
+  )
+  console.log(tickets)
   const dispatch = useDispatch()
-  useEffect(()=>{
-    return ()=>{
-      if(isSuccess){
+  useEffect(() => {
+    return () => {
+      if (isSuccess) {
         dispatch(reset())
       }
     }
-  },[dispatch, isSuccess])
+  }, [dispatch, isSuccess])
 
- 
   // NOTE: only need one useEffect here
 
   useEffect(() => {
@@ -42,7 +43,7 @@ console.log(tickets)
           <div>Status</div>
           <div></div>
         </div>
-        
+
         {tickets.map((ticket) => (
           <TicketItem key={ticket._id} ticket={ticket} />
         ))}

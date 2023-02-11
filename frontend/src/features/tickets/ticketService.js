@@ -36,6 +36,33 @@ const getTickets = async (token) => {
     return response.data
   }
 
+  const deleteTicket = async (ticketId, token) =>{
+    console.log(ticketId,'service')
+    const config = {
+        headers: {
+            Authorization: `Bearer ${token}`,
+        },
+    }
+    const response = await axios.delete(`${API_URL}${ticketId}` ,config)
+return response.data
+}
+
+//ticket.product, ticket.product, ticket._id
+
+const updateTicket = async (updateTicketData, token) =>{
+    const config = {
+        headers: {
+            Authorization: `Bearer ${token}`,
+        },
+    }
+    const response = await axios.put(`${API_URL}${updateTicketData._id}/`, {
+        product: updateTicketData.product,
+        description: updateTicketData.description
+    },config)
+return response.data
+}
+
+
  // Close ticket
 const closeTicket = async (ticketId, token) => {
   const config = {
@@ -56,7 +83,9 @@ const ticketService = {
     createTicket,
     getTickets,
     getTicket,
-    closeTicket
+    closeTicket,
+    updateTicket,
+    deleteTicket,
 }
 
 export default ticketService
