@@ -10,8 +10,7 @@ import { updateTicket } from '../features/tickets/ticketSlice'
 function NewTicket() {
   const { user } = useSelector((state) => state.auth)
 
-  const { tickets } = useSelector((state) => state.tickets)
-console.log(tickets)
+ 
 
   const [name] = useState(user.name)
   const [email] = useState(user.email)

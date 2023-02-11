@@ -21,7 +21,23 @@ function TicketItem({ ticket }) {
 
   return (
     <div className='ticket'>
-      <div>{new Date(ticket.createdAt).toLocaleString('en-US')}</div>
+      <div>
+      {ticket.updatedAt == ticket.createdAt? <h6>
+          Date Submitted: {new Date(ticket.createdAt).toLocaleString('en-US')}
+        </h6> : 
+       ( 
+          
+        <h6>
+          Date Submitted: {new Date(ticket.createdAt).toLocaleString('en-US')}
+        <br></br>
+          Date Updated: {new Date(ticket.updatedAt).toLocaleString('en-US')}
+        </h6>)
+          
+      
+        }
+      </div>
+      
+      {/* <div>{new Date(ticket.createdAt).toLocaleString('en-US')}</div> */}
       <div>{ticket.product}</div>
       <div className={`status status-${ticket.status}`}>{ticket.status}</div>
       <Link to={`/tickets/${ticket._id}/`} className='btn btn-reverse btn-sm'>
