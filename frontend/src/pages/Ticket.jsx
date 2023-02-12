@@ -89,10 +89,10 @@ function Ticket() {
             {ticket.status}
           </span>
         </h2>
-      <h3>
+        <h3>
           Date Submitted: {new Date(ticket.createdAt).toLocaleString('en-US')}
         </h3>
- 
+
         <h3>Product: {ticket.product}</h3>
         <hr />
         <div className='ticket-desc'>

@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
@@ -9,20 +9,40 @@ import { updateTicket } from '../features/tickets/ticketSlice'
 
 function NewTicket() {
   const { user } = useSelector((state) => state.auth)
-
- 
+  const { ticket } = useSelector((state) => state.tickets)
+console.log(ticket)
 
   const [name] = useState(user.name)
   const [email] = useState(user.email)
   // const [product, setProduct] = useState(ticket?.product)
   // const [description, setDescription] = useState(ticket?.description)
-  const [product, setProduct] = useState()
-  const [description, setDescription] = useState()
+  const [product, setProduct] = useState("")
+  const [description, setDescription] = useState("")
+
 
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const { ticketId } = useParams()
 
+  // const selectedTicket = dispatch(getTicket(ticketId)).unwrap().then((response) => {
+  //   console.log(response);
+  // })
+  // .catch(toast.error)
+  
+
+  
+useEffect(() => {
+   
+    if(!ticketId) return
+  dispatch(getTicket(ticketId))
+  }, [dispatch, ticketId])
+ 
+
+  useEffect(() => {
+   setDescription(ticket.description)
+   setProduct(ticket.product)
+  
+  }, [ticket])
   const onSubmit = (e) => {
     e.preventDefault()
     const updateTicketData = {
